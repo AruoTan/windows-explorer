@@ -1,0 +1,10 @@
+{
+  "Build": "26300.9711",
+  "TargetPid": 28772,
+  "VisualTests": "Not executed",
+  "DriveInstall": "PASS",
+  "BadSymbolsIsolated": "PASS",
+  "PopupInstall": "PASS",
+  "RepeatedToggles": 5,
+  "ExplorerAlive": "PASS"
+}

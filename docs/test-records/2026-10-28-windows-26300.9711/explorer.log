@@ -1,0 +1,38 @@
+2026-10-28T12:10:36.443Z pid=28772 tid=26204 os code=0 (0x00000000) 10.0.26300.9711
+2026-10-28T12:10:36.446Z pid=28772 tid=26204 drive.install code=0 (0x00000000) 
+2026-10-28T12:10:36.977Z pid=28772 tid=26204 popup.enable.requested code=0 (0x00000000) 
+2026-10-28T12:10:36.977Z pid=28772 tid=8660 module.twinui code=0 (0x00000000) 10.0.26100.9549
+2026-10-28T12:10:36.977Z pid=28772 tid=8660 module.twinui.resource_version code=0 (0x00000000) 10.0.26100.9949 (WinBuild.160101.0800)
+2026-10-28T12:10:36.977Z pid=28772 tid=8660 popup.module.identity code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T12:10:36.983Z pid=28772 tid=8660 symbols.helper.started code=0 (0x00000000) helper_pid=30536
+2026-10-28T12:10:36.999Z pid=28772 tid=8660 popup.inactive code=1306 (0x0000051A) Symbols unavailable; feature inactive
+2026-10-28T12:10:37.193Z pid=28772 tid=26204 popup.disabled code=0 (0x00000000) 
+2026-10-28T12:10:37.308Z pid=28772 tid=26204 popup.enable.requested code=0 (0x00000000) 
+2026-10-28T12:10:37.308Z pid=28772 tid=8660 module.twinui code=0 (0x00000000) 10.0.26100.9549
+2026-10-28T12:10:37.308Z pid=28772 tid=8660 module.twinui.resource_version code=0 (0x00000000) 10.0.26100.9949 (WinBuild.160101.0800)
+2026-10-28T12:10:37.308Z pid=28772 tid=8660 popup.module.identity code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T12:10:37.310Z pid=28772 tid=8660 symbols.helper.started code=0 (0x00000000) helper_pid=4548
+2026-10-28T12:10:37.409Z pid=28772 tid=8660 hook.MH_Initialize code=0 (0x00000000) 
+2026-10-28T12:10:37.409Z pid=28772 tid=8660 hook.MH_CreateHook code=0 (0x00000000) 
+2026-10-28T12:10:37.440Z pid=28772 tid=8660 hook.MH_EnableHook code=0 (0x00000000) 
+2026-10-28T12:10:37.440Z pid=28772 tid=8660 popup.installed code=0 (0x00000000) HRESULT(this, IVirtualDesktop*, VirtualDesktopSwitchType:int)
+2026-10-28T12:10:37.629Z pid=28772 tid=26204 popup.disabled code=0 (0x00000000) 
+2026-10-28T12:10:37.742Z pid=28772 tid=26204 popup.enable.requested code=0 (0x00000000) 
+2026-10-28T12:10:37.743Z pid=28772 tid=26204 popup.enabled code=0 (0x00000000) 
+2026-10-28T12:10:37.859Z pid=28772 tid=26204 popup.disabled code=0 (0x00000000) 
+2026-10-28T12:10:37.976Z pid=28772 tid=26204 popup.enable.requested code=0 (0x00000000) 
+2026-10-28T12:10:37.977Z pid=28772 tid=26204 popup.enabled code=0 (0x00000000) 
+2026-10-28T12:10:38.092Z pid=28772 tid=26204 popup.disabled code=0 (0x00000000) 
+2026-10-28T12:10:38.208Z pid=28772 tid=26204 popup.enable.requested code=0 (0x00000000) 
+2026-10-28T12:10:38.209Z pid=28772 tid=26204 popup.enabled code=0 (0x00000000) 
+2026-10-28T12:10:38.310Z pid=28772 tid=26204 popup.disabled code=0 (0x00000000) 
+2026-10-28T12:10:38.426Z pid=28772 tid=26204 popup.enable.requested code=0 (0x00000000) 
+2026-10-28T12:10:38.428Z pid=28772 tid=26204 popup.enabled code=0 (0x00000000) 
+2026-10-28T12:10:38.541Z pid=28772 tid=26204 popup.disabled code=0 (0x00000000) 
+2026-10-28T12:10:38.644Z pid=28772 tid=26204 popup.enable.requested code=0 (0x00000000) 
+2026-10-28T12:10:38.644Z pid=28772 tid=26204 popup.enabled code=0 (0x00000000) 
+2026-10-28T12:10:38.859Z pid=28772 tid=26204 popup.disabled code=0 (0x00000000) 
+2026-10-28T12:10:38.860Z pid=28772 tid=26204 popup.unload.deferred code=170 (0x000000AA) active_callbacks=0; initializing=0; pinned code and any published trampoline retained until Explorer exits
+2026-10-28T12:10:38.861Z pid=28772 tid=26204 host.unload.deferred code=170 (0x000000AA) DLL pinned: published COM wrappers, entry addresses and trampolines may still be referenced; exit Explorer to release
+2026-10-28T12:10:39.039Z pid=28772 tid=26204 os code=0 (0x00000000) 10.0.26300.9711
+2026-10-28T12:10:39.039Z pid=28772 tid=26204 drive.install code=0 (0x00000000) 

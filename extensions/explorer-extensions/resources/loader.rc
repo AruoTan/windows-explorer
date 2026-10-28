@@ -1,0 +1,19 @@
+// UTF-8 resource text; keep a leading comment for the resource preprocessor.
+#pragma code_page(65001)
+#include <windows.h>
+1 24 "loader.manifest"
+1 DIALOGEX 0, 0, 300, 132
+STYLE DS_SETFONT | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Explorer Extensions"
+FONT 9, "Segoe UI"
+BEGIN
+    LTEXT "Explorer 扩展设置（当前用户）", 110, 12, 10, 270, 12
+    CONTROL "驱动器导航去重", 101, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 30, 270, 14
+    CONTROL "关闭虚拟桌面名称提示", 102, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 50, 270, 14
+    LTEXT "首次启用提示拦截时需要准备系统符号，可在状态和日志中查看结果。", 111, 12, 70, 276, 23
+    DEFPUSHBUTTON "应用", IDOK, 12, 105, 45, 16
+    PUSHBUTTON "全部停用", 103, 61, 105, 55, 16
+    PUSHBUTTON "状态", 104, 120, 105, 45, 16
+    PUSHBUTTON "日志", 105, 169, 105, 45, 16
+    PUSHBUTTON "关闭", IDCANCEL, 238, 105, 50, 16
+END

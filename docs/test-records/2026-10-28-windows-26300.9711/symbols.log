@@ -1,0 +1,18 @@
+2026-10-28T12:10:37.316Z pid=4548 tid=16296 symbols.helper.target code=0 (0x00000000) target_pid=28772
+2026-10-28T12:10:37.319Z pid=4548 tid=16296 os code=0 (0x00000000) 10.0.26300.9711
+2026-10-28T12:10:37.319Z pid=4548 tid=16296 module.twinui code=0 (0x00000000) 10.0.26100.9549
+2026-10-28T12:10:37.319Z pid=4548 tid=16296 module.twinui.resource_version code=0 (0x00000000) 10.0.26100.9949 (WinBuild.160101.0800)
+2026-10-28T12:10:37.322Z pid=4548 tid=16296 symbols.identity code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$8
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$4
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$5
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$6
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$7
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$0
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$1
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$2
+2026-10-28T12:10:37.328Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$3
+2026-10-28T12:10:37.369Z pid=4548 tid=16296 symbols.candidate code=0 (0x00000000) public: virtual long __cdecl CAudioFlyoutController::VirtualDesktopSwitched(struct IVirtualDesktop * __ptr64,enum VirtualDesktopSwitchType) __ptr64
+2026-10-28T12:10:37.402Z pid=4548 tid=16296 symbols.match code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T12:10:37.403Z pid=4548 tid=16296 symbols.signature code=0 (0x00000000) HRESULT(this, IVirtualDesktop*, VirtualDesktopSwitchType:int)
+2026-10-28T12:10:37.403Z pid=4548 tid=16296 symbols.rva code=0 (0x00000000) 3509968
