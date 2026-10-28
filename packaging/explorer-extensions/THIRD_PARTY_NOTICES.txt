@@ -1,4 +1,4 @@
-Explorer Extensions 0.3.0 - third party notices
+Explorer Extensions 0.4.0 - third party notices
 
 MinHook 1.3.4, commit c3fcafdc10146beb5919319d0683e44e3c30d537
 https://github.com/TsudaKageyu/minhook
@@ -6,7 +6,7 @@ License: BSD-2-Clause. Full MinHook and HDE notices: MinHook-LICENSE.txt
 
 Windows DbgHelp/WinHTTP/Shell APIs are supplied by Windows.
 
-The original project source was supplied without a LICENSE; these notices do not grant a project license.
+These component notices do not set the license of this project.
 
 
 ========================================================================

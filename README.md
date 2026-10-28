@@ -2,7 +2,7 @@
 
 面向 Windows x64 的当前用户 Explorer 扩展。**统一入口为 `ExplorerExtensions.exe`**，双击打开设置窗口；不再通过多个 EXE 或 JScript 管理不同功能。
 
-- 驱动器导航去重：保留现有独立盘符去重逻辑。
+- 驱动器导航去重：依据 Windows 原生命名空间注册过滤重复盘符。
 - 关闭虚拟桌面名称提示：独立配置，默认关闭，只拦截 `twinui!CAudioFlyoutController::VirtualDesktopSwitched`。
 
 ## 使用
@@ -25,7 +25,9 @@ ExplorerExtensions.exe --diagnose
 
 `--disable` 停用全部功能并删除统一登录启动项。`--diagnose` 仅检查 OS、模块和匹配符号，不安装 Hook、不改功能配置。命令行成功返回 0，失败返回 1，详情在日志中；`--status` 显示状态窗口。双击不自动启用新功能。
 
-首次应用配置会停用旧 `DriveNavigationFilter` 加载器并移除其旧启动项；旧驱动器开关会作为初始选择保留。新功能默认关闭。旧 DLL 仍可能驻留，更新/移动文件前应先全部停用并手动重启 Explorer。旧 EXE 与脚本仅保存在 `releases/` 历史包中。
+配置仅使用 `HKCU\Software\ExplorerExtensions`，日志和符号仅使用 `%LOCALAPPDATA%\ExplorerExtensions`。登录启动项名称为 `ExplorerExtensions`。两个开关均默认关闭，不读取其他应用的配置或执行迁移操作。
+
+驱动器去重依据 Windows 原生命名空间注册识别盘符根目录入口，不提供外部菜单或依赖其他应用。更新或移动已加载的文件前，先全部停用并手动重启 Explorer。
 
 ## 开发
 
@@ -35,7 +37,7 @@ python3 scripts/package.py
 bash scripts/test.sh /path/to/zig
 ```
 
-Zig 固定为 `toolchains/zig.version` 指定的 0.15.2。输出为 `out/explorer-extensions/` 和 `dist/ExplorerExtensions-x64.zip`。依赖源码已固定在 `third_party/`；构建时不下载依赖。
+Zig 固定为 `toolchains/zig.version` 指定的 0.15.2。输出为 `out/explorer-extensions/` 和 `dist/ExplorerExtensions-x64.zip`。必要的 Hook 实现及其许可证固定在 `third_party/`；不包含依赖的独立工程、CI 或 IDE 项目，构建时不下载依赖。
 
 ```text
 extensions/explorer-extensions/
@@ -50,7 +52,6 @@ extensions/explorer-extensions/
 scripts/                      构建、打包和验证
 packaging/explorer-extensions/ 发布说明和完整第三方许可
 third_party/                  MinHook 固定源码及依赖记录
-releases/                     原始发布包
 out/、dist/                    生成产物，不入库
 ```
 

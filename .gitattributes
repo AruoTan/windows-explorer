@@ -7,4 +7,3 @@
 *.exe binary
 *.dll binary
 *.zip binary
-releases/** -text

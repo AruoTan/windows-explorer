@@ -2,6 +2,8 @@
 #include "enum-filter.h"
 #include "slot-patch.h"
 #include "features.h"
+#include "diagnostics.h"
+#include "native-aliases.h"
 
 namespace DriveNavFilter {
 using namespace ExplorerRuntime;
@@ -10,61 +12,15 @@ using namespace ExplorerRuntime;
 PIDLIST_ABSOLUTE computer = nullptr;
 std::atomic<DWORD> filteredCount{0};
 
-bool ReadDword(HKEY key, const wchar_t* name, DWORD expected) {
-    DWORD value = 0, bytes = sizeof(value);
-    return RegGetValueW(key, nullptr, name, RRF_RT_REG_DWORD, nullptr, &value,
-                        &bytes) == ERROR_SUCCESS && value == expected;
-}
-template <size_t N>
-bool ReadString(HKEY key, const wchar_t* name, wchar_t (&value)[N]) {
-    DWORD bytes = sizeof(value);
-    return RegGetValueW(key, nullptr, name, RRF_RT_REG_SZ, nullptr, value,
-                        &bytes) == ERROR_SUCCESS && bytes >= sizeof(wchar_t);
-}
-struct ChildKey {
-    HKEY value = nullptr;
-    ~ChildKey() { if (value) RegCloseKey(value); }
-    bool Open(HKEY parent, const wchar_t* path) {
-        return RegOpenKeyExW(parent, path, 0, KEY_READ, &value) == ERROR_SUCCESS;
-    }
-};
-bool HasIndependentAlias(wchar_t letter) {
-    wchar_t statePath[] = L"Software\\Nilesoft\\Shell\\DriveNavigation\\A";
-    statePath[sizeof(statePath) / sizeof(wchar_t) - 2] = letter;
-    ChildKey state;
-    if (!state.Open(HKEY_CURRENT_USER, statePath) ||
-        !ReadDword(state.value, L"Active", 1) ||
-        !ReadDword(state.value, L"SidebarOnly", 1)) return false;
-    wchar_t root[8]{}, id[40]{};
-    if (!ReadString(state.value, L"Root", root) || DriveIndex(root) != letter - L'A' ||
-        !ReadString(state.value, L"CLSID", id)) return false;
-    if (wcslen(id) != 38 || id[0] != L'{' || id[37] != L'}') return false;
-    GUID parsed{};
-    if (FAILED(CLSIDFromString(id, &parsed)) || IsEqualGUID(parsed, GUID_NULL)) return false;
-    wchar_t canonical[40]{};
-    if (!StringFromGUID2(parsed, canonical, 40)) return false;
-    wchar_t classPath[100]{};
-    swprintf_s(classPath, L"Software\\Classes\\CLSID\\%ls", canonical);
-    ChildKey alias, instance, bag, desktop;
-    if (!alias.Open(HKEY_CURRENT_USER, classPath) ||
-        !ReadDword(alias.value, L"System.IsPinnedToNameSpaceTree", 1) ||
-        !instance.Open(alias.value, L"Instance") ||
-        !bag.Open(instance.value, L"InitPropertyBag")) return false;
-    wchar_t kind[40]{}, target[8]{};
-    if (!ReadString(instance.value, L"CLSID", kind) ||
-        _wcsicmp(kind, L"{0E5AAE11-A475-4C5B-AB00-C66DE400274E}") != 0 ||
-        !ReadString(bag.value, L"TargetFolderPath", target) ||
-        DriveIndex(target) != letter - L'A') return false;
-    wchar_t desktopPath[160]{};
-    swprintf_s(desktopPath,
-               L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\%ls",
-               canonical);
-    return desktop.Open(HKEY_CURRENT_USER, desktopPath);
-}
 std::uint32_t ReadHiddenDriveMask() {
     std::uint32_t mask = 0;
-    for (int i = 0; i < 26; ++i) {
-        if (HasIndependentAlias(L'A' + i)) mask |= std::uint32_t{1} << i;
+    constexpr wchar_t path[] = L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace";
+    for (HKEY root : {HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE}) {
+        NativeRegistryKey entries;
+        LSTATUS status = RegOpenKeyExW(root, path, 0, KEY_READ, &entries.value);
+        if (status == ERROR_FILE_NOT_FOUND || status == ERROR_PATH_NOT_FOUND) continue;
+        if (status != ERROR_SUCCESS) { Log(L"RegOpenKeyExW(desktop namespace)", status); continue; }
+        mask |= RegisteredDriveMask(entries.value, HKEY_CLASSES_ROOT);
     }
     return mask;
 }

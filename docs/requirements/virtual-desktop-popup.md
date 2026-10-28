@@ -16,7 +16,6 @@ HRESULT VirtualDesktopSwitched(IVirtualDesktop* desktop,
                               VirtualDesktopSwitchType switchType);
 ```
 
-[参考实现源码](https://github.com/ramensoftware/windhawk-mods/blob/main/mods/virtual-desktop-popups-disable.wh.cpp) 是需求提供的参考，不代表已经在目标系统验证。
 
 ## 兼容与失败策略
 

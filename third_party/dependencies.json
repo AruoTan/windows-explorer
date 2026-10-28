@@ -4,6 +4,7 @@
     "commit": "c3fcafdc10146beb5919319d0683e44e3c30d537",
     "source": "https://github.com/TsudaKageyu/minhook",
     "archive_sha256": "31757833475be039c16359d4e276e718db6ba2ba61a6b870053a112106015822",
-    "license": "BSD-2-Clause; bundled HDE carries BSD-2-Clause notices in LICENSE.txt"
+    "license": "BSD-2-Clause; bundled HDE carries BSD-2-Clause notices in LICENSE.txt",
+    "contents": "Only required Windows x64 hook implementation and license; no upstream build projects, CI or documentation."
   }
 }

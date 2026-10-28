@@ -1,0 +1,17 @@
+{
+  "version": "0.4.0",
+  "os_build": "26300.9711",
+  "startup_name": "ExplorerExtensions",
+  "configuration_path": "HKCU\\Software\\ExplorerExtensions",
+  "data_directory": "%LOCALAPPDATA%\\ExplorerExtensions",
+  "windows_hook_smoke": "PASS",
+  "windows_native_aliases": "PASS",
+  "symbol_diagnostics_pid": 30124,
+  "symbol_diagnostics_exit_code": 0,
+  "zip_sha256": "138228650e4da76476299e1450e91f385939242c3163bc85fc69b243c71c3a18",
+  "visual_acceptance": "Not executed for 0.4.0",
+  "windows_gui_defaults": "PASS: both options off; no configuration migration",
+  "powershell_syntax": "PASS",
+  "windows_packaging": "PASS",
+  "linux_windows_package_payloads": "identical"
+}

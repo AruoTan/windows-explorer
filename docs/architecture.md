@@ -1,14 +1,14 @@
 # 架构与生命周期
 
-当前交付一个 `ExplorerExtensions.exe` 和一个 `ExplorerExtensions.dll`，两个功能共用设置、登录启动项、加载器、会话验证、日志和工作线程。历史独立版仅保存在 `releases/`。
+当前交付一个 `ExplorerExtensions.exe` 和一个 `ExplorerExtensions.dll`，两个功能共用设置、登录启动项、加载器、会话验证、日志和工作线程。项目源码只包含本扩展及必要 Hook 实现，不携带其他应用的配置、菜单或发布包。
 
 ## 模块边界
 
 | 文件 | 职责 |
 | --- | --- |
-| `src/host.cpp` | 无参数设置窗口、按功能命令行、当前用户配置、旧版迁移、唯一后台加载器 |
+| `src/host.cpp` | 无参数设置窗口、按功能命令行、当前用户独立配置、唯一后台加载器 |
 | `src/dllmain.cpp` | 最小 DllMain、消息钩子导出、进程宿主互斥、功能协调线程 |
-| `src/features/drive-navigation/` | 原有 Shell 导航枚举过滤与 COM 包装器 |
+| `src/features/drive-navigation/` | Windows 原生命名空间识别、导航枚举过滤与 COM 包装器 |
 | `src/features/desktop_popup.cpp` | 两种明确包含 this 的 x64 回调、原始调用转发、一次安装和原子启停 |
 | `src/module_identity.cpp` | 已加载 PE 的 RSDS GUID/Age/镜像大小与可执行区检查 |
 | `src/symbol_resolver.cpp` | 仅 EXE 辅助进程使用：WinHTTP 下载匹配 PDB，DbgHelp 精确核对和完整签名定位 |
@@ -38,3 +38,7 @@ DbgHelp 位于同一 EXE 的内部 `--resolve-popup` 辅助进程，Explorer DLL
 零活跃回调不能证明没有线程已经取得入口地址；本项目不据此强制卸载。退出协调线程时记录活跃回调数、初始化状态和延迟卸载原因。不在 DllMain 中移除 Hook、等待回调、下载符号或销毁复杂资源。
 
 更新、移动 DLL 或变更已加载版本需要用户先全部停用，再手动重启 Explorer。项目不会为了更新自动终止 Explorer。文件移动后的新入口会更新单个启动项；不同目录的宿主检测到已有拥有者时跳过安装并提示重启，而非叠加功能 Hook。
+
+## 独立命名空间
+
+配置为 `HKCU\Software\ExplorerExtensions`；登录启动项为 `ExplorerExtensions`；日志/符号根目录为 `%LOCALAPPDATA%\ExplorerExtensions`；同步对象以 `Local\ExplorerExtensions.` 为前缀；清单身份为 `ExplorerExtensions`。不引用其他应用的设置，也不执行跨项目迁移。

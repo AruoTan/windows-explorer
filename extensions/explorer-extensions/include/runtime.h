@@ -11,16 +11,14 @@
 #include <vector>
 
 namespace ExplorerRuntime {
-inline constexpr wchar_t ControlPath[] = L"Software\\Nilesoft\\Shell\\ExplorerExtensions";
-inline constexpr wchar_t LegacyControlPath[] = L"Software\\Nilesoft\\Shell\\DriveNavigationFilter";
+inline constexpr wchar_t ControlPath[] = L"Software\\ExplorerExtensions";
 inline constexpr wchar_t DriveSetting[] = L"DriveNavigationFilterEnabled";
 inline constexpr wchar_t PopupSetting[] = L"DisableVirtualDesktopPopups";
 inline constexpr wchar_t RunPath[] = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
-inline constexpr wchar_t RunName[] = L"NilesoftExplorerExtensions";
-inline constexpr wchar_t LegacyRunName[] = L"NilesoftDriveNavigationFilter";
+inline constexpr wchar_t RunName[] = L"ExplorerExtensions";
 inline constexpr wchar_t DllName[] = L"ExplorerExtensions.dll";
 inline constexpr wchar_t ExeName[] = L"ExplorerExtensions.exe";
-inline constexpr wchar_t Version[] = L"0.3.0";
+inline constexpr wchar_t Version[] = L"0.4.0";
 
 struct Failure { DWORD code; std::wstring message; };
 [[noreturn]] inline void Fail(const wchar_t* message, DWORD code = GetLastError()) {
@@ -67,9 +65,8 @@ inline bool ReadBool(const wchar_t* path, const wchar_t* name, bool fallback = f
                                  nullptr, &value, &bytes);
     return result == ERROR_SUCCESS ? value == 1 : fallback;
 }
-inline Settings ReadSettings(bool includeLegacy = false) {
-    return {ReadBool(ControlPath, DriveSetting, includeLegacy && ReadBool(LegacyControlPath, L"Enabled")),
-            ReadBool(ControlPath, PopupSetting)};
+inline Settings ReadSettings() {
+    return {ReadBool(ControlPath, DriveSetting), ReadBool(ControlPath, PopupSetting)};
 }
 inline bool ControlEnabled() {
     return ReadSettings().Any();
@@ -102,7 +99,7 @@ inline std::wstring ProcessSid(HANDLE process) {
 inline std::wstring ObjectName(const wchar_t* type) {
     std::wstring sid = ProcessSid(GetCurrentProcess());
     if (sid.empty()) Fail(L"Cannot identify the current user", ERROR_ACCESS_DENIED);
-    return std::wstring(L"Local\\NilesoftShell.ExplorerExtensions.") + type + L"." + sid;
+    return std::wstring(L"Local\\ExplorerExtensions.") + type + L"." + sid;
 }
 class SettingsLock {
     Handle mutex_;

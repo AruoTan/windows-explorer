@@ -1,0 +1,20 @@
+2026-10-28T13:06:11.665Z pid=30124 tid=21536 os code=0 (0x00000000) 10.0.26300.9711
+2026-10-28T13:06:11.676Z pid=30124 tid=21536 module.twinui code=0 (0x00000000) 10.0.26100.9549
+2026-10-28T13:06:11.676Z pid=30124 tid=21536 module.twinui.resource_version code=0 (0x00000000) 10.0.26100.9949 (WinBuild.160101.0800)
+2026-10-28T13:06:11.676Z pid=30124 tid=21536 symbols.identity code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T13:06:11.678Z pid=30124 tid=21536 symbols.download.begin code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T13:06:15.524Z pid=30124 tid=21536 symbols.http code=200 (0x000000C8) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T13:06:17.425Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$8
+2026-10-28T13:06:17.425Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$4
+2026-10-28T13:06:17.425Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$5
+2026-10-28T13:06:17.425Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$6
+2026-10-28T13:06:17.425Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$7
+2026-10-28T13:06:17.440Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$0
+2026-10-28T13:06:17.441Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$1
+2026-10-28T13:06:17.442Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$2
+2026-10-28T13:06:17.443Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) `CAudioFlyoutController::VirtualDesktopSwitched'::`1'::dtor$3
+2026-10-28T13:06:17.492Z pid=30124 tid=21536 symbols.candidate code=0 (0x00000000) public: virtual long __cdecl CAudioFlyoutController::VirtualDesktopSwitched(struct IVirtualDesktop * __ptr64,enum VirtualDesktopSwitchType) __ptr64
+2026-10-28T13:06:17.576Z pid=30124 tid=21536 symbols.match code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871
+2026-10-28T13:06:17.577Z pid=30124 tid=21536 symbols.signature code=0 (0x00000000) HRESULT(this, IVirtualDesktop*, VirtualDesktopSwitchType:int)
+2026-10-28T13:06:17.578Z pid=30124 tid=21536 symbols.rva code=0 (0x00000000) 3509968
+2026-10-28T13:06:17.587Z pid=30124 tid=21536 diagnose.completed code=0 (0x00000000) FDDD5C12E412A64AD5FB8AA23B5029871

@@ -8,7 +8,7 @@ std::wstring DataDirectory() {
     PWSTR path = nullptr;
     HRESULT result = SHGetKnownFolderPath(FOLDERID_LocalAppData, KF_FLAG_CREATE, nullptr, &path);
     if (FAILED(result)) Fail(L"SHGetKnownFolderPath", static_cast<DWORD>(result));
-    std::wstring directory = std::wstring(path) + L"\\Nilesoft\\ExplorerExtensions";
+    std::wstring directory = std::wstring(path) + L"\\ExplorerExtensions";
     CoTaskMemFree(path);
     int error = SHCreateDirectoryExW(nullptr, directory.c_str(), nullptr);
     if (error != ERROR_SUCCESS && error != ERROR_ALREADY_EXISTS && error != ERROR_FILE_EXISTS)

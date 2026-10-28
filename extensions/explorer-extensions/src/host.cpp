@@ -139,27 +139,6 @@ int Background() {
         }
     }
 }
-void MigrateLegacy() {
-    if (ReadBool(LegacyControlPath, L"Enabled")) {
-        Key legacy; legacy.Create(LegacyControlPath); SetDword(legacy.value, L"Enabled", 0);
-    }
-    Key run;
-    if (run.Open(RunPath, KEY_SET_VALUE)) {
-        LSTATUS error = RegDeleteValueW(run.value, LegacyRunName);
-        if (error != ERROR_SUCCESS && error != ERROR_FILE_NOT_FOUND) Fail(L"Remove legacy startup", error);
-    }
-    auto sid = ProcessSid(GetCurrentProcess());
-    auto prefix = std::wstring(L"Local\\NilesoftShell.DriveNavigationFilter.");
-    Handle stop(OpenEventW(EVENT_MODIFY_STATE, FALSE, (prefix + L"Stop." + sid).c_str()));
-    if (stop && !SetEvent(stop.get())) Fail(L"SetEvent(legacy loader)");
-    Handle old(OpenMutexW(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, (prefix + L"Loader." + sid).c_str()));
-    if (old) {
-        DWORD wait = WaitForSingleObject(old.get(), 10000);
-        if (wait == WAIT_OBJECT_0 || wait == WAIT_ABANDONED) ReleaseMutex(old.get());
-        else Fail(L"Legacy loader did not stop; settings retained; restart Explorer before retry", wait == WAIT_TIMEOUT ? ERROR_TIMEOUT : GetLastError());
-    }
-    Log(L"legacy.retired", 0, L"legacy code may remain pinned until Explorer exits");
-}
 void LaunchBackground() {
     auto path = ModulePath();
     std::wstring command = L"\"" + path + L"\" --background";
@@ -221,12 +200,11 @@ void Configure(Settings settings, const wchar_t* feature = nullptr, bool enabled
     {
         SettingsLock lock;
         if (feature) {
-            settings = ReadSettings(true);
+            settings = ReadSettings();
             if (wcscmp(feature, L"drive-navigation") == 0) settings.drive = enabled;
             else if (wcscmp(feature, L"virtual-desktop-popups") == 0) settings.popup = enabled;
             else Fail(L"Unknown feature", ERROR_INVALID_PARAMETER);
         }
-        MigrateLegacy();
         Key control, run;
         control.Create(ControlPath); run.Create(RunPath);
         ValueSnapshot oldDrive(control.value, DriveSetting), oldPopup(control.value, PopupSetting), oldRun(run.value, RunName);
@@ -264,7 +242,7 @@ void Configure(Settings settings, const wchar_t* feature = nullptr, bool enabled
 }
 void ShowStatus() {
     Settings settings;
-    { SettingsLock lock; settings = ReadSettings(true); }
+    { SettingsLock lock; settings = ReadSettings(); }
     std::wstring text = std::wstring(L"Explorer Extensions ") + Version +
         L"\n驱动器导航过滤：" + (settings.drive ? L"已请求启用" : L"已关闭") +
         L"\n关闭虚拟桌面名称提示：" + (settings.popup ? L"已请求启用" : L"已关闭") + L"\n";
@@ -299,7 +277,7 @@ void ShowStatus() {
 INT_PTR CALLBACK Dialog(HWND window, UINT message, WPARAM w, LPARAM) {
     try {
         if (message == WM_INITDIALOG) {
-            SettingsLock lock; auto settings = ReadSettings(true);
+            SettingsLock lock; auto settings = ReadSettings();
             CheckDlgButton(window, DriveBox, settings.drive ? BST_CHECKED : BST_UNCHECKED);
             CheckDlgButton(window, PopupBox, settings.popup ? BST_CHECKED : BST_UNCHECKED);
             return TRUE;

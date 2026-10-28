@@ -4,26 +4,13 @@
 #include <new>
 #include <string_view>
 
-#ifndef DRIVE_NAV_FILTER_TEST
 #include <windows.h>
 #include <shlobj.h>
-#else
-#include "drive-navigation-filter-test-api.h"
-#endif
+#include "drive-path.h"
 
 namespace DriveNavFilter {
 
 std::atomic<bool> enabled{false};
-
-// Match the native drive root, never a child folder, UNC path or CLSID alias.
-int DriveIndex(std::wstring_view path) {
-    if (path.size() != 2 && path.size() != 3) return -1;
-    wchar_t letter = path[0];
-    if (letter >= L'a' && letter <= L'z') letter -= L'a' - L'A';
-    if (letter < L'A' || letter > L'Z' || path[1] != L':') return -1;
-    if (path.size() == 3 && path[2] != L'\\' && path[2] != L'/') return -1;
-    return letter - L'A';
-}
 
 std::uint32_t ReadHiddenDriveMask();
 bool ShouldHide(PCUITEMID_CHILD child, std::uint32_t mask);

@@ -21,7 +21,7 @@ struct DbgSession {
     ~DbgSession() { if (initialized && !SymCleanup(handle.get())) Log(L"SymCleanup", GetLastError()); }
 };
 void Download(const std::wstring& directory, const std::wstring& destination, const Identity& identity) {
-    Internet session(WinHttpOpen(L"ExplorerExtensions/0.3.0", WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
+    Internet session(WinHttpOpen(L"ExplorerExtensions/0.4.0", WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
                                  WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0));
     if (!WinHttpSetTimeouts(session.get(), 5000, 5000, 10000, 10000)) Fail(L"WinHttpSetTimeouts");
     Internet connection(WinHttpConnect(session.get(), L"msdl.microsoft.com", INTERNET_DEFAULT_HTTPS_PORT, 0));

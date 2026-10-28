@@ -20,16 +20,13 @@ function Read-Value([string]$Path, [string]$Name) {
 }
 $version = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
 if ($version.CurrentBuildNumber -ne '26300' -or $version.UBR -ne 9711) { throw 'This acceptance script requires OS Build 26300.9711' }
-$control = 'Software\Nilesoft\Shell\ExplorerExtensions'
-$legacy = 'Software\Nilesoft\Shell\DriveNavigationFilter'
+$control = 'Software\ExplorerExtensions'
 $run = 'Software\Microsoft\Windows\CurrentVersion\Run'
 $baseline = [ordered]@{
     Build = "$($version.CurrentBuildNumber).$($version.UBR)"
     Drive = Read-Value $control 'DriveNavigationFilterEnabled'
     Popup = Read-Value $control 'DisableVirtualDesktopPopups'
-    LegacyDrive = Read-Value $legacy 'Enabled'
-    Startup = Read-Value $run 'NilesoftExplorerExtensions'
-    LegacyStartup = Read-Value $run 'NilesoftDriveNavigationFilter'
+    Startup = Read-Value $run 'ExplorerExtensions'
 }
 $baseline | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $output 'baseline.json')
 $test = Join-Path $root 'out/tests/hook-smoke.exe'
@@ -59,7 +56,7 @@ function Wait-State([string]$Feature, [string]$Expected) {
     } while ([DateTime]::UtcNow -lt $deadline)
     throw "Timed out waiting for $Feature=$Expected; got $state"
 }
-$pdb = Join-Path $env:LOCALAPPDATA 'Nilesoft/ExplorerExtensions/symbols/twinui.pdb/FDDD5C12E412A64AD5FB8AA23B5029871/twinui.pdb'
+$pdb = Join-Path $env:LOCALAPPDATA 'ExplorerExtensions/symbols/twinui.pdb/FDDD5C12E412A64AD5FB8AA23B5029871/twinui.pdb'
 # This fixture is tied to the recorded module identity and only used for this acceptance run.
 $backup = $pdb + '.validation-backup-' + $PID
 $results = [ordered]@{Build=$baseline.Build;TargetPid=$targetPid;VisualTests='Not executed'}
@@ -90,19 +87,20 @@ try {
     if (-not (Get-Process -Id $targetPid -ErrorAction SilentlyContinue)) { throw 'Explorer exited unexpectedly' }
     $results.ExplorerAlive = 'PASS'
 } finally {
-    # Preserve the old feature selection using the unified host; the legacy loader is retired.
-    $restoreDrive = if ($null -ne $baseline.Drive) { $baseline.Drive -eq 1 } else { $baseline.LegacyDrive -eq 1 }
+    # Restore this project feature selection.
+    $restoreDrive = $baseline.Drive -eq 1
     Run-Entry -Arguments @('--disable')
     if ($restoreDrive) { Run-Entry -Arguments @('--enable','drive-navigation') }
     if ($baseline.Popup -eq 1) { Run-Entry -Arguments @('--enable','virtual-desktop-popups') }
     # Restore whether login startup existed before this test. Do not add startup merely by testing.
     $key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($run)
     try {
-        if ($null -eq $baseline.Startup -and $null -eq $baseline.LegacyStartup) { $key.DeleteValue('NilesoftExplorerExtensions', $false) }
+        if ($null -eq $baseline.Startup) { $key.DeleteValue('ExplorerExtensions', $false) }
+        else { $key.SetValue('ExplorerExtensions', $baseline.Startup, [Microsoft.Win32.RegistryValueKind]::String) }
     } finally { $key.Close() }
     $results | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $output 'results.json')
     foreach ($processId in $explorer) {
-        Get-ChildItem (Join-Path $env:LOCALAPPDATA "Nilesoft/ExplorerExtensions/logs/$processId-*.log") -ErrorAction SilentlyContinue |
+        Get-ChildItem (Join-Path $env:LOCALAPPDATA "ExplorerExtensions/logs/$processId-*.log") -ErrorAction SilentlyContinue |
             Copy-Item -Destination $output
     }
 }
